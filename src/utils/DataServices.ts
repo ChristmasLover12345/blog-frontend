@@ -40,8 +40,15 @@ export const login = async (user:IUserInfo) => {
 
     if(!res.ok)
     {
-        
+        const data = await res.json()
+        const message = data.message
+        console.log(message)
+
+        return null
     }
+
+    const data = await res.json()
+    return data.token;
 }
 
 // Get Logged data fetch
