@@ -1,4 +1,6 @@
 'use client'
+import { CreateAccount } from "@/utils/DataServices";
+import { IUserInfo } from "@/utils/Interface";
 import { Button, Checkbox, Label, TextInput } from "flowbite-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -18,7 +20,7 @@ export default function Home() {
 
   const handleSubmit = async () => {
 
-    let userData = {
+    let userData: IUserInfo = {
       username: username,
       password: password
     }
@@ -28,7 +30,8 @@ export default function Home() {
     if(switchBool)
     {
       // Create account logic here
-      console.log("Account Created")
+      let result = await CreateAccount(userData)
+      result ? alert("Account Created") : alert("Username already exists")
     }
     else
     {
