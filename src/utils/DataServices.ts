@@ -52,3 +52,43 @@ export const login = async (user:IUserInfo) => {
 }
 
 // Get Logged data fetch
+
+export const getLoggedInUserData = async (username: string) => {
+    const res = await fetch(url + `User/GetUserInfoByUsername/${username}`);
+
+    if (!res.ok)
+    {
+        const data = await res.json();
+        const message = data.message
+        console.log(message)
+        return null
+    }
+    userData = await res.json();
+    // We're not going to use this data inside of a variable we will make a seperate function for implementation
+    return userData;
+}
+
+// Get the users data
+
+export const loggedInData = () => {
+    return userData
+}
+
+// We're checking if the token is in our storage (see if we are logged in)
+
+export const checkToken = () => {
+    let result = false
+
+    if(typeof window != null)
+    {
+        const IsData = localStorage.getItem("Token");
+
+        if (IsData != null)
+        {
+            result = true
+        }
+    }
+    
+    return result
+}
+
