@@ -1,11 +1,62 @@
-import React from 'react'
+'use client'
+
+import { IBlogItems } from '@/utils/Interface'
+import React, { useEffect, useState } from 'react'
+import BlogEntries from '@/utils/BlogEntries.json'
 
 const page = () => {
-  return (
-    <div>
+const [blogItems, setBlogItems] = useState<IBlogItems[]>(BlogEntries)
 
-        <h1>Blog Page</h1>
-        
+useEffect(() => {
+
+
+
+},[])
+
+  return (
+    <div className='flex min-h-screen flex-col p-24'>
+
+        <h1 className='text-center text-3xl'>Blog Page</h1>
+        <div className='container flex justify-center min-w-full'>
+        <div>
+          {blogItems.map((item: IBlogItems, idx: number ) => {
+            return (
+              <div key={idx} className=''>
+                  {idx % 2 === 0 ? (
+                    <div className='grid grid-cols-2 gap-4 mt-10 bg-slate-400 rounded-md'>
+                      <div className='p-10'>
+                          <h2 className='text-center text-3xl'>{item.title}</h2>
+                          <div className='flex flex-evenly'>
+                            <p>{item.publisherName}</p>
+                            <p>{item.date}</p>
+                          </div>
+                          <div>
+                            <img src={item.image} alt="Martial Arts Image" className='object-cover h-96 w-full'/>
+                          </div>
+                      </div>
+                      <div className='p-10'>{item.description}</div>
+                    </div>
+                  ) : (
+                    <div className='grid grid-cols-2 gap-4 mt-10 bg-red-400 rounded-md'>
+                      <div className='p-10'>{item.description}</div>
+                    <div className='p-10'>
+                        <h2 className='text-center text-3xl'>{item.title}</h2>
+                        <div className='flex flex-evenly'>
+                          <p>{item.publisherName}</p>
+                          <p>{item.date}</p>
+                        </div>
+                        <div>
+                          <img src={item.image} alt="Martial Arts Image" className='object-cover h-96 w-full'/>
+                        </div>
+                    </div> 
+                  </div>
+                  )}
+              </div>
+            )
+          })}
+        </div>
+        </div>
+
     </div>
   )
 }

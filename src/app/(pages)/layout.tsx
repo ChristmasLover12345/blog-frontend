@@ -1,3 +1,4 @@
+import NavbarComponent from '@/Components/NavbarComponent';
 import React from 'react'
 
 const layout = ({
@@ -7,6 +8,8 @@ const layout = ({
 }>) => {
   return (
     <div>
+      <NavbarComponent />
+      {/* The pages are the children within our layout */}
         {children}
     </div>
   )

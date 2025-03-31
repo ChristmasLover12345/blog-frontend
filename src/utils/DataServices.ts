@@ -1,4 +1,4 @@
-import { IUserData, IUserInfo } from "./Interface"
+import { IBlogItems, IUserData, IUserInfo } from "./Interface"
 
 const url = "https://jheredia-blog-api-h2bdfwgzcpb3hpac.westus-01.azurewebsites.net/"
 
@@ -92,3 +92,84 @@ export const checkToken = () => {
     return result
 }
 
+// ------------------------Blog Endpoints-----------------------------
+
+export const getAllBlogs = async (token: string) => {
+    const res = await fetch(url + "Blog/GetAllBlogs", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token
+        }
+    });
+    if(!res.ok)
+    {
+        const errData = await res.json()
+        const message = errData.message
+        console.log(message)
+        return []
+    }
+    const data = await res.json();
+    return data
+}
+
+export const getBlogItemsByUserId = async (userId:number, token:string) => {
+    const res = await fetch(url + "Blog/GetBlogsByUserId/" + userId, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token
+        }
+    });
+    if(!res.ok)
+    {
+        const errData = await res.json()
+        const message = errData.message
+        console.log(message)
+        return []
+    }
+    const data = await res.json();
+    return data
+}
+
+export const addBlogItem = async (blog:IBlogItems, token:string) => {
+    const res = await fetch(url + "Blog/AddBlog", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token
+        },
+        body:JSON.stringify(blog)
+    });
+    if(!res.ok)
+    {
+        const errorData = await res.json()
+        const message = errorData.message
+        console.log(message)
+        return false
+    }
+    const data = await res.json()
+    // Return true we have successfully added our blog to our backend DB
+    return data.success
+}
+
+export const upDateBlogItem = async (blog:IBlogItems, token:string) => {
+    const res = await fetch(url + "Blog/AddBlog", {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token
+        },
+        body:JSON.stringify(blog)
+    });
+    if(!res.ok)
+    {
+        const errorData = await res.json()
+        const message = errorData.message
+        console.log(message)
+        return false
+    }
+    const data = await res.json()
+    // Return true we have successfully updated our blog to our backend DB
+    return data.success
+}
