@@ -21,6 +21,7 @@ import {
 } from "flowbite-react";
 
 import React, { useEffect, useState } from "react";
+import BlogEntries from "@/utils/BlogEntries.json"
 
 const page = () => {
   const [openModal, setOpenModal] = useState<boolean>(false);
@@ -35,7 +36,7 @@ const page = () => {
 
     const [edit, setEdit] = useState<boolean>(false)
 
-    const [blogItems, setBlogItems] = useState<IBlogItems>()
+    const [blogItems, setBlogItems] = useState<IBlogItems[]>(BlogEntries)
 
     useEffect(() => {
 
@@ -144,9 +145,9 @@ const page = () => {
               <div>
                 <div className="flex items-center gap-2">
                   <Dropdown label="Categories" dismissOnClick={true}>
-                    <DropdownItem onClick={() => {}}>Jujitsu</DropdownItem>
-                    <DropdownItem onClick={() => {}}>Jajutsu</DropdownItem>
-                    <DropdownItem onClick={() => {}}>PooJitsu</DropdownItem>
+                    <DropdownItem onClick={() => handleCategory("Jujitsu")}>Jujitsu</DropdownItem>
+                    <DropdownItem onClick={() => handleCategory("Jajutsu")}>Jajutsu</DropdownItem>
+                    <DropdownItem onClick={() => handleCategory("PooJitsu")}>PooJitsu</DropdownItem>
                   </Dropdown>
                 </div>
                 <div className="mb-2 block">
@@ -156,15 +157,14 @@ const page = () => {
                   id="Picture"
                   accept="image/png, image/jpg"
                   placeholder="Chose Picture"
+                  onChange={handleImage}
                 />
               </div>
             </form>
           </ModalBody>
           <ModalFooter>
-            <Button onClick={() => setOpenModal(false)}>
-              Save and publish
-            </Button>
-            <Button onClick={() => setOpenModal(false)}>Save</Button>
+            <Button onClick={() => handleSave}>           Save and publish           </Button>
+            <Button onClick={() => handleSave}>Save</Button>
             <Button color="gray" onClick={() => setOpenModal(false)}>
               Cancel
             </Button>
@@ -174,7 +174,28 @@ const page = () => {
             <AccordionPanel>
               <AccordionTitle>Published Blog Items</AccordionTitle>
               <AccordionContent>
-                <ListGroup></ListGroup>
+                <ListGroup>
+
+                  {blogItems.map((item: IBlogItems, index: number) => {
+                    return (
+                      <div key={index}>
+                        {
+                          item.isPublished && !item.isDeleted && (
+                            <div className="flex flex-col p-10">
+                              <h2 className="text-3xl">{item.title}</h2>
+                              <div className="flex flex-row space-x-3">
+                                <button color="blue">Edit</button>
+                                <button color="red">Delete</button>
+                                <button color="yellow">Unpublish</button>
+                              </div>
+                            </div>
+                          )
+                        }
+                      </div>
+                    )
+                  })}
+
+                </ListGroup>
               </AccordionContent>
             </AccordionPanel>
             <AccordionPanel>
