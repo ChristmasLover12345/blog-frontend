@@ -173,3 +173,28 @@ export const upDateBlogItem = async (blog:IBlogItems, token:string) => {
     // Return true we have successfully updated our blog to our backend DB
     return data.success
 }
+
+export const DeleteBlogItem = async (blog:IBlogItems, token:string) => {
+    const res = await fetch(url + "Blog/DeleteBlog", {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token
+        },
+        body:JSON.stringify(blog)
+    });
+    if(!res.ok)
+    {
+        const errorData = await res.json()
+        const message = errorData.message
+        console.log(message)
+        return false
+    }
+    const data = await res.json()
+    // Return true we have successfully updated our blog to our backend DB
+    return data.success
+}
+
+const getToken = () => {
+    return localStorage.getItem("Token") ?? ""
+}
