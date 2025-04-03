@@ -1,6 +1,6 @@
 "use client";
 
-import { checkToken } from "@/utils/DataServices";
+import { checkToken, getBlogItemsByUserId, getToken, loggedInData } from "@/utils/DataServices";
 import { IBlogItems } from "@/utils/Interface";
 import {
   Button,
@@ -22,6 +22,7 @@ import {
 
 import React, { useEffect, useState } from "react";
 import BlogEntries from "@/utils/BlogEntries.json";
+import { useRouter } from "next/navigation";
 
 const page = () => {
   const [openModal, setOpenModal] = useState<boolean>(false);
@@ -38,9 +39,30 @@ const page = () => {
 
   const [blogItems, setBlogItems] = useState<IBlogItems[]>(BlogEntries);
 
+  const router = useRouter()
+
   useEffect(() => {
+
+    const getLoggedInData = async () => {
+      // get users info
+      const loggedIn = loggedInData()
+      console.log(loggedIn)
+      setBlogUserId(loggedIn.id)
+      setBlogPublisherName(loggedIn.username)
+
+      // get user Blog items
+      const userBlogItems = await getBlogItemsByUserId(loggedIn.id, getToken())
+
+
+
+      // set blog items in our variables
+      setBlogItems(userBlogItems)
+    }
+
     if (!checkToken()) {
+      router.push('/')
     } else {
+      getLoggedInData()
     }
   }, []);
 

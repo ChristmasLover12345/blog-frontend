@@ -48,7 +48,7 @@ export const login = async (user:IUserInfo) => {
     }
 
     const data = await res.json()
-    return data.token;
+    return data;
 }
 
 // Get Logged data fetch
@@ -195,6 +195,6 @@ export const DeleteBlogItem = async (blog:IBlogItems, token:string) => {
     return data.success
 }
 
-const getToken = () => {
+export const getToken = () => {
     return localStorage.getItem("Token") ?? ""
 }

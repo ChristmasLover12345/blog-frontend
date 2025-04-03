@@ -20,7 +20,7 @@ export interface IUserInfo {
 // This will be used to fetch our user data id and name
 export interface IUserData {
     id: number
-    usernmae: string
+    username: string
 }
 
 // interface for getting our Token

@@ -44,7 +44,7 @@ export default function Home() {
         if(typeof window != null)
         {
           localStorage.setItem("Token", token.token)
-          console.log(token)
+          console.log(token.token)
           await getLoggedInUserData(username)
           router.push('/Dashboard')
         }
